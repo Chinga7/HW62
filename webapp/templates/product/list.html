@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'webapp:product_list' %}">Home</a>
+    </li>
+    {% if perms.webapp.add_product %}
+    <li class="nav-item">
+         <a class="nav-link" href="{% url 'webapp:product_create' %}">Create Product</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+         <a class="nav-link" href="{% url 'webapp:cart_list' %}">Cart List</a>
+    </li>
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+             <a class="nav-link" href="{% url 'webapp:order_list' %}">Order List</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+        <h1>Products</h1>
+        {% include 'partial/product_list.html'%}
+
+        {% include 'partial/pagination.html'%}
+{% endblock %}

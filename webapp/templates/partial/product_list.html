@@ -1,0 +1,31 @@
+<div class="row align-items-start">
+    <div class="col">
+        {% for product in products %}
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                  <h5 class="card-title">{{ product.name }} </h5>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                      <p class="list-group-item list-group-item-action"><i>category:</i> {{ product.category }}</p>
+                  </h6>
+                  <p class="card-text"><i>price:</i> {{ product.price }}$</p>
+                  <a href="{% url 'webapp:product_detail' product.pk %}" class="card-link"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                  {% if perms.webapp.change_product %}
+                    <a href="{% url 'webapp:product_update' product.pk %}" class="card-link"><i class="fa-solid fa-pen-to-square"></i></a>
+                  {% endif %}
+                  {% if perms.webapp.delete_product %}
+                    <a href="{% url 'webapp:product_delete' product.pk %}" class="card-link"><i class="fa-solid fa-trash"></i></a>
+                  {% endif %}
+                  <a href="{% url 'webapp:cart_add' product.pk 'main' %}" class="card-link"><i class="fas fa-shopping-cart"></i></a>
+              </div>
+            </div>
+        <p></p>
+        {% endfor %}
+
+    </div>
+    <div class="col">
+        <p></p>
+        <form action="/" method="get">
+            {% include 'partial/basic_form.html' with button_name='Search' %}
+        </form>
+    </div>
+</div>

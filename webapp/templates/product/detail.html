@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'webapp:product_list' %}">Home</a>
+    </li>
+    {% if perms.webapp.change_product %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'webapp:product_update' product.pk %}">Update</a>
+        </li>
+    {% endif %}
+    {% if perms.webapp.delete_product %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'webapp:product_delete' product.pk %}">Delete</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+<div class="row align-items-start">
+    <div class="col">
+        <h1>Product Details</h1>
+
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ product.category }}</h6>
+                  <p class="card-text">{{ product.description|linebreaks }}</p>
+                  <p class="card-text">In stock: {{ product.leftover }}</p>
+                  <p class="card-text">price: {{ product.price }}$</p>
+                  {% if perms.webapp.change_product %}
+                    <a href="{% url 'webapp:product_update' product.pk %}" class="card-link"><i class="fa-solid fa-pen-to-square"></i></a>
+                  {% endif %}
+                  {% if perms.webapp.delete_product %}
+                    <a href="{% url 'webapp:product_delete' product.pk %}" class="card-link"><i class="fa-solid fa-trash"></i></a>
+                  {% endif %}
+                  <a href="{% url 'webapp:cart_add' product.pk 'detail' %}" class="card-link"><i class="fas fa-shopping-cart"></i></a>
+
+              </div>
+            </div>
+        <p></p>
+    </div>
+    </div>
+
+{% endblock %}

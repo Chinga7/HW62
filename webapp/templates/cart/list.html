@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'webapp:product_list' %}">Home</a>
+    </li>
+{% endblock %}
+
+{% block title %}Products In Cart{% endblock %}
+
+{% block content %}
+<h1>Products in Cart</h1>
+<table class="table">
+  <thead>
+    <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Sum</th>
+        <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in items %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.sum }}</td>
+      <td><a href="{% url 'webapp:cart_delete' item.pk %}" class="btn btn-outline-danger" role="button" >Delete</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<p>Total: {{ total }}</p>
+    <h2>Order</h2>
+    <form action="{% url 'webapp:order_create' %}" method="post">
+        {% include 'partial/basic_form.html' with button_name='Order' %}
+    </form>
+
+{% endblock %}
